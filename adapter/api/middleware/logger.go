@@ -14,17 +14,14 @@ import (
 	"github.com/urfave/negroni"
 )
 
-// Logger armazena a estrutura de log para entrada e saídas da API
 type Logger struct {
 	log logger.Logger
 }
 
-// NewLoggerFactory constrói um Logger com suas dependências
 func NewLogger(log logger.Logger) Logger {
 	return Logger{log: log}
 }
 
-// Execute cria logs de entrada e saída da API
 func (l Logger) Execute(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
 	start := time.Now()
 
@@ -76,7 +73,6 @@ func getRequestPayload(r *http.Request) (string, error) {
 		return "", errors.Wrap(err, "error read body")
 	}
 
-	// re-adiciona o payload ao buffer da request
 	r.Body = ioutil.NopCloser(bytes.NewBuffer(payload))
 
 	return strings.TrimSpace(string(payload)), nil
